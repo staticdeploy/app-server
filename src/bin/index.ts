@@ -3,11 +3,11 @@
 import express = require("express");
 import morgan = require("morgan");
 import { join } from "path";
-import * as yargs from "yargs";
+import yargs = require("yargs");
 
 import getRouter from "../getRouter";
 
-interface IArgv {
+interface IArgv extends yargs.Arguments {
     root: string;
     index: string;
     selector: string;
@@ -15,7 +15,7 @@ interface IArgv {
     port: string;
 }
 
-const argv: IArgv = yargs
+const argv = yargs
     .usage("Usage: $0 <options>")
     .version(require("../../package").version)
     .help("h")
@@ -47,7 +47,7 @@ const argv: IArgv = yargs
         describe: "Port to listen on",
         type: "string"
     })
-    .strict().argv;
+    .strict().argv as IArgv;
 
 try {
     const { root, index, selector, baseUrl, port } = argv;
