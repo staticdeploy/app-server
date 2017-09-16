@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/app-server",
   "description": "Serve and apply runtime configuration to static apps",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "precommit": "yarn lint",
     "compile": "tsc",
