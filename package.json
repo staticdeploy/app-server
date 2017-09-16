@@ -1,6 +1,6 @@
 {
   "name": "@staticdeploy/app-server",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Serve and apply runtime configuration to static apps",
   "keywords": [
     "static",
