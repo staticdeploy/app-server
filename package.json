@@ -1,7 +1,13 @@
 {
   "name": "@staticdeploy/app-server",
-  "description": "Serve and apply runtime configuration to static apps",
   "version": "1.0.1",
+  "description": "Serve and apply runtime configuration to static apps",
+  "keywords": [
+    "static",
+    "server",
+    "configuration",
+    "create-react-app"
+  ],
   "scripts": {
     "precommit": "yarn lint",
     "compile": "tsc",
@@ -25,6 +31,14 @@
   ],
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/staticdeploy/app-server.git"
+  },
+  "homepage": "https://github.com/staticdeploy/app-server",
+  "bugs": {
+    "url": "https://github.com/staticdeploy/app-server/issues"
+  },
   "publishConfig": {
     "access": "public"
   },
