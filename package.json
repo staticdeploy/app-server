@@ -25,6 +25,9 @@
   ],
   "author": "Paolo Scanferla <paolo.scanferla@gmail.com>",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "devDependencies": {
     "@types/chai": "^4.0.1",
     "@types/cheerio": "^0.22.1",
