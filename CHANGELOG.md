@@ -1,3 +1,7 @@
+## 1.0.2 (September 16, 2017)
+
+Publish useful package metadata to npm.
+
 ## 1.0.1 (September 16, 2017)
 
 First version published to npm.
