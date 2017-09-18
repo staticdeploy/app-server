@@ -1,5 +1,4 @@
 // tslint:disable:no-console
-// tslint:disable:no-var-requires
 import express = require("express");
 import morgan = require("morgan");
 import { join } from "path";
@@ -17,9 +16,6 @@ interface IArgv extends yargs.Arguments {
 
 const argv = yargs
     .usage("Usage: $0 <options>")
-    .version(require("../../package").version)
-    .help("h")
-    .alias("h", "help")
     .env("APP_SERVER")
     .option("root", {
         default: "build",
@@ -47,6 +43,7 @@ const argv = yargs
         describe: "Port to listen on",
         type: "string"
     })
+    .wrap(Math.min(120, yargs.terminalWidth()))
     .strict().argv as IArgv;
 
 try {
