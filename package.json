@@ -26,7 +26,7 @@
     "dev-config-server": "./bin/dev-config-server.js"
   },
   "files": [
-    "index.js",
+    "bin",
     "lib",
     "docs"
   ],
