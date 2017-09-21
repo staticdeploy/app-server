@@ -1,5 +1,7 @@
 ## Usage with create-react-app
 
+### [Example project](../examples/create-react-app/)
+
 ### How-to
 
 First:
