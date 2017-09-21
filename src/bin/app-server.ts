@@ -52,10 +52,10 @@ try {
         .use(morgan("common"))
         .use(baseUrl, getRouter(root, index, selector, process.env))
         .listen(port, () => {
-            console.log(`Server started on port ${port}`);
+            console.log(`app-server started on port ${port}`);
         });
 } catch (err) {
-    console.error("Error starting the server");
+    console.error("Error starting app-server");
     console.error(err);
     process.exit(1);
 }
