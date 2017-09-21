@@ -17,35 +17,15 @@ configure any static app.
 ### Install
 
 ```
-npm i --save-dev @staticdeploy/app-server
+yarn add -D @staticdeploy/app-server
 ```
 
-### Quickstart
+### Guides
 
-- add the following `<script>` to your `index.html`:
-  ```html
-  <script id="app-config">
-      window.APP_CONFIG={
-          MY_VAR: "default value for development"
-      };
-  </script>
-  ```
-  When serving the file, `app-server` will inject the runtime configuration into
-  the element.
+- [usage with create-react-app](docs/usage-with-cra.md)
+- [deploy create-react-app apps with Docker](docs/deploy-cra-apps-with-docker.md)
 
-- access the config variables in your code:
-  ```js
-  console.log(window.APP_CONFIG.MY_VAR);
-  ```
-
-- start the server setting configuration variables:
-  ```sh
-  env APP_CONFIG_MY_VAR=value app-server
-  ```
-
-### Documentation
+### Additional documentation
 
 - [how `window.APP_CONFIG` is generated](docs/config-generation.md)
-- [how the config script is injected into index.hmtl](docs/config-injection.md)
-- [how to dynamically set `window.APP_CONFIG` in development](docs/dynamic-config-in-dev.md)
-- [server configuration options](docs/server-configuration-options.md)
+- [app-server configuration options](docs/app-server-configuration-options.md)

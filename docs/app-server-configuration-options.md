@@ -1,4 +1,4 @@
-## Server configuration options
+## `app-server` configuration options
 
 The `app-server` binary takes the following configuration options:
 
