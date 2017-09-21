@@ -1,3 +1,9 @@
+## 1.1.1 (September 21, 2017)
+
+Fixes:
+
+- publish `bin` folder to npm
+
 ## 1.1.0 (September 21, 2017)
 
 Features:
