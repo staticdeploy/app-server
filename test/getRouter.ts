@@ -136,7 +136,8 @@ describe("The express Router returned by getRouter", () => {
             .accept("text/html")
             .expect(200)
             .then(res => {
-                const script = load(res.text)(selector).html();
+                const script = load(res.text)(selector).html() as string;
+                expect(script).to.be.a("string");
                 const vm = new VM({ sandbox: { window: {} } });
                 vm.run(script);
                 const APP_CONFIG = vm.run("window.APP_CONFIG");

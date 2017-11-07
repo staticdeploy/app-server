@@ -138,7 +138,9 @@ describe("middleware redirectToMatchingAssets", () => {
     ];
     expectations.forEach(expectation => {
         const [baseUrl, requestedUrl, expectedRedirectLocation] = expectation;
-        it(`with baseUrl=${baseUrl} redirects ${requestedUrl} -> ${expectedRedirectLocation}`, () => {
+        it(`with baseUrl=${baseUrl} redirects ${requestedUrl} -> ${
+            expectedRedirectLocation
+        }`, () => {
             const server = express()
                 .use(baseUrl, middleware)
                 // Serve non-301 status code to requests not handled by redirectToMatchingAssets
