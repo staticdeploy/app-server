@@ -20,8 +20,7 @@ export default function serveIndex(
             (method === "GET" || method === "HEAD")
         ) {
             debug("Serving configured index");
-            res
-                .type("html")
+            res.type("html")
                 .header("Content-Length", configuredIndexLength)
                 .status(200)
                 // Don't send the body on HEAD requests

@@ -1,16 +1,16 @@
 {
-    "include": [
-        "src/**/*.ts"
-    ],
+    "include": ["src/**/*.ts"],
     "compilerOptions": {
-        "target": "ES2017",
-        "module": "commonjs",
-        "moduleResolution": "node",
         "outDir": "lib",
         "declaration": true,
+        "rootDirs": ["src", "test"],
+        "target": "es2017",
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "esModuleInterop": true,
         "pretty": true,
-        "noEmitOnError": true,
         "sourceMap": true,
+        "noEmitOnError": true,
         "alwaysStrict": true,
         "forceConsistentCasingInFileNames": true,
         "noFallthroughCasesInSwitch": true,
@@ -19,6 +19,8 @@
         "noImplicitThis": true,
         "noUnusedLocals": true,
         "noUnusedParameters": true,
-        "strictNullChecks": true
+        "strictNullChecks": true,
+        "strictFunctionTypes": true,
+        "strictPropertyInitialization": true
     }
 }

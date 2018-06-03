@@ -7,14 +7,17 @@
 First:
 
 - add the following `<script>` to your `public/index.html`:
+
   ```html
   <script id="app-config" src="http://localhost:3456/app-config.js"></script>
   ```
 
 - modify the `start` npm script:
+
   ```json
   "start": "dev-config-server & react-scripts start"
   ```
+
   > Note: you can use `npm-run-all` or `concurrently` to better handle
   > concurrently running processes in npm scripts
 
@@ -28,6 +31,7 @@ Then:
 #### In development
 
 - define configuration in the `.env` file:
+
   ```sh
   APP_CONFIG_MY_VAR=my_val
   ```

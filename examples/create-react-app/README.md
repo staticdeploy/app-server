@@ -24,16 +24,16 @@ changed.
 
 When started, `dev-config-server`:
 
-1. generates from the `.env` file a javascript script defining the global
-   variable `window.APP_CONFIG`
-2. serves the script at `http://localhost:3456/app-config.js`
+1.  generates from the `.env` file a javascript script defining the global
+    variable `window.APP_CONFIG`
+2.  serves the script at `http://localhost:3456/app-config.js`
 
 When the app is loaded:
 
-1. the `#app-config` script in the app's `index.html` loads and evaluates
-   `/app-config.js`
-2. `app-config.js` defines the variable `window.APP_CONFIG`
-3. the appropriate greeting is rendered
+1.  the `#app-config` script in the app's `index.html` loads and evaluates
+    `/app-config.js`
+2.  `app-config.js` defines the variable `window.APP_CONFIG`
+3.  the appropriate greeting is rendered
 
 ## Run the example in production mode with Docker
 
@@ -60,14 +60,14 @@ base images which respectively build the app into a static bundle and setup
 
 When the image is run with `docker run ...`, `app-server`:
 
-1. starts serving the app
-2. generates from environment variables a javascript script defining the global
-   variable `window.APP_CONFIG`,
-3. injects the script as content of the `#app-config` script in the app's
-   `index.html`
+1.  starts serving the app
+2.  generates from environment variables a javascript script defining the global
+    variable `window.APP_CONFIG`,
+3.  injects the script as content of the `#app-config` script in the app's
+    `index.html`
 
 When the app is loaded:
 
-1. the `#app-config` script in the app's `index.html` is evaluated
-2. the content of the script defines the variable `window.APP_CONFIG`
-3. the appropriate greeting is rendered
+1.  the `#app-config` script in the app's `index.html` is evaluated
+2.  the content of the script defines the variable `window.APP_CONFIG`
+3.  the appropriate greeting is rendered

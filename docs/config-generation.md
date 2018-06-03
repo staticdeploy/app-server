@@ -18,7 +18,7 @@ the following `window.APP_CONFIG` is generated:
 
 ```js
 window.APP_CONFIG = {
-    "KEY_0": "VALUE_0",
-    "KEY_1": "VALUE_1"
+  KEY_0: "VALUE_0",
+  KEY_1: "VALUE_1"
 };
 ```
