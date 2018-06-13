@@ -8,6 +8,23 @@ import request from "supertest";
 import { v4 } from "uuid";
 import { VM } from "vm2";
 
+async function startServer(args: string[], env: NodeJS.ProcessEnv) {
+    const devConfigServerPath = join(__dirname, "../../src/bin/app-server.ts");
+    const server = spawn(
+        require.resolve("ts-node/dist/bin.js"),
+        [devConfigServerPath, ...args],
+        { env: { ...process.env, ...env } }
+    );
+    await new Promise(resolve => {
+        server.stdout.on("data", chunk => {
+            if (/app-server started/.test(chunk.toString())) {
+                resolve();
+            }
+        });
+    });
+    return server;
+}
+
 describe("app-server bin", () => {
     // Create static app to serve (and destroy it after tests)
     const root = join(tmpdir(), "staticdeploy/app-server/", v4());
@@ -25,44 +42,47 @@ describe("app-server bin", () => {
         APP_CONFIG_KEY: "VALUE"
     };
 
-    // Start app-server before tests (and stop it after)
+    // Stop app-server after each tests
     let server: ChildProcess;
-    before(function(done) {
-        this.timeout(5000);
-        const devConfigServerPath = join(
-            __dirname,
-            "../../src/bin/app-server.ts"
-        );
-        server = spawn(
-            require.resolve("ts-node/dist/bin.js"),
-            [devConfigServerPath, "--root", root],
-            { env: { ...process.env, ...env } }
-        );
-        setTimeout(done, 4000);
-    });
-    after(() => {
+    afterEach(() => {
         server.kill();
     });
 
-    describe("starts a server serving the static app", () => {
-        it("serving the static app", () => {
-            return request("http://localhost:3000")
-                .get("/")
-                .expect(200)
-                .expect(/head/);
-        });
-        it("configuring html files", () => {
-            return request("http://localhost:3000")
-                .get("/")
-                .expect(200)
-                .then(res => {
-                    const $ = load(res.text);
-                    const scriptContent = $("script#app-config").html();
-                    const vm = new VM({ sandbox: { window: {} } });
-                    vm.run(scriptContent!);
-                    const APP_CONFIG = vm.run("window.APP_CONFIG");
-                    expect(APP_CONFIG).to.deep.equal({ KEY: "VALUE" });
-                });
-        });
+    it("starts a server serving the static app", async () => {
+        server = await startServer(["--root", root], env);
+        return request("http://localhost:3000")
+            .get("/")
+            .expect(200)
+            .expect(/head/);
+    });
+
+    it("301 to /baseUrl/ on GET /baseUrl", async () => {
+        server = await startServer(
+            ["--root", root, "--baseUrl", "/baseUrl"],
+            env
+        );
+        await request("http://localhost:3000")
+            .get("/baseUrl")
+            .expect(301)
+            .expect("Location", "/baseUrl/");
+        await request("http://localhost:3000")
+            .get("/baseUrl/")
+            .expect(200)
+            .expect(/head/);
+    });
+
+    it("configures html files", async () => {
+        server = await startServer(["--root", root], env);
+        return request("http://localhost:3000")
+            .get("/")
+            .expect(200)
+            .then(res => {
+                const $ = load(res.text);
+                const scriptContent = $("script#app-config").html();
+                const vm = new VM({ sandbox: { window: {} } });
+                vm.run(scriptContent!);
+                const APP_CONFIG = vm.run("window.APP_CONFIG");
+                expect(APP_CONFIG).to.deep.equal({ KEY: "VALUE" });
+            });
     });
 });

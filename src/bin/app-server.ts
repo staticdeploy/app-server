@@ -4,6 +4,8 @@ import express from "express";
 import yargs from "yargs";
 
 import getAppServerRouter from "../getAppServerRouter";
+import addTrailingSlash from "../utils/addTrailingSlash";
+import removeTrailingSlash from "../utils/removeTrailingSlash";
 import toAbsolute from "../utils/toAbsolute";
 
 const logger = bunyan.createLogger({ name: "@staticdeploy/app-server" });
@@ -26,6 +28,7 @@ const argv = yargs
         type: "string"
     })
     .option("fallbackResource", {
+        alias: "index",
         coerce: toAbsolute,
         default: "index.html",
         describe:
@@ -44,6 +47,7 @@ const argv = yargs
         type: "string"
     })
     .option("baseUrl", {
+        coerce: addTrailingSlash,
         default: "/",
         describe: "Website base url",
         type: "string"
@@ -57,9 +61,19 @@ const argv = yargs
     .wrap(Math.min(120, yargs.terminalWidth()))
     .strict().argv as IArgv;
 
+// Deprecate use of --index option
+if (process.argv.find(arg => /^--index/.test(arg))) {
+    // tslint:disable-next-line:no-console
+    console.log("Option --index is deprectaed, use --fallbackResource instead");
+}
+
 try {
     express()
+        .set("strict routing", true)
         .use(bunyanMiddleware({ logger }))
+        .get(removeTrailingSlash(argv.baseUrl), (_req, res) => {
+            res.redirect(301, argv.baseUrl);
+        })
         .use(
             argv.baseUrl,
             getAppServerRouter({
