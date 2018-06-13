@@ -47,7 +47,7 @@ const argv = yargs
         type: "string"
     })
     .option("baseUrl", {
-        coerce: addTrailingSlash,
+        coerce: baseUrl => toAbsolute(addTrailingSlash(baseUrl)),
         default: "/",
         describe: "Website base url",
         type: "string"
@@ -68,25 +68,35 @@ if (process.argv.find(arg => /^--index/.test(arg))) {
 }
 
 try {
-    express()
-        .set("strict routing", true)
-        .use(bunyanMiddleware({ logger }))
-        .get(removeTrailingSlash(argv.baseUrl), (_req, res) => {
+    const app = express();
+    app.set("strict routing", true);
+
+    // Log requests
+    app.use(bunyanMiddleware({ logger }));
+
+    // If baseUrl !== /, redirect /baseUrl to /baseUrl/
+    if (argv.baseUrl !== "/") {
+        app.get(removeTrailingSlash(argv.baseUrl), (_req, res) => {
             res.redirect(301, argv.baseUrl);
-        })
-        .use(
-            argv.baseUrl,
-            getAppServerRouter({
-                root: argv.root,
-                fallbackResource: argv.fallbackResource,
-                selector: argv.selector,
-                config: process.env,
-                configKeyPrefix: argv.configKeyPrefix
-            })
-        )
-        .listen(argv.port, () => {
-            logger.info(`app-server started on port ${argv.port}`);
         });
+    }
+
+    // Use appServerRouter
+    app.use(
+        argv.baseUrl,
+        getAppServerRouter({
+            root: argv.root,
+            fallbackResource: argv.fallbackResource,
+            selector: argv.selector,
+            config: process.env,
+            configKeyPrefix: argv.configKeyPrefix
+        })
+    );
+
+    // Start the server
+    app.listen(argv.port, () => {
+        logger.info(`app-server started on port ${argv.port}`);
+    });
 } catch (err) {
     logger.error(err, "Error starting app-server");
     process.exit(1);
