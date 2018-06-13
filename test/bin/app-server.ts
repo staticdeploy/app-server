@@ -25,7 +25,10 @@ async function startServer(args: string[], env: NodeJS.ProcessEnv) {
     return server;
 }
 
-describe("app-server bin", () => {
+describe("app-server bin", function() {
+    // Increase timeout for these tests since each of them starts app-server
+    this.timeout(5000);
+
     // Create static app to serve (and destroy it after tests)
     const root = join(tmpdir(), "staticdeploy/app-server/", v4());
     before(() => {
