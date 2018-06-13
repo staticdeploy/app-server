@@ -42,7 +42,8 @@
     "lint": "yarn lint:prettier && yarn lint:tslint",
     "test": "NODE_ENV=test mocha --exit -r ts-node/register --watch-extensions ts 'test/**/*.ts'",
     "coverage": "nyc --all yarn test",
-    "publish-coverage": "codecov"
+    "publish-coverage": "codecov",
+    "start": "node bin/app-server.js"
   },
   "dependencies": {
     "@staticdeploy/app-config": "^2.0.0",

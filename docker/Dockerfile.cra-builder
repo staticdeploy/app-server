@@ -1,0 +1,16 @@
+FROM node:8
+
+ONBUILD WORKDIR /app
+
+# Copy source files
+ONBUILD COPY . .
+
+# Set PUBLIC_URL so that app paths are relative (app-server will then figure out
+# what to serve)
+ONBUILD ENV PUBLIC_URL .
+
+# Install dependencies
+ONBUILD RUN yarn install
+
+# Build the app
+ONBUILD RUN yarn build
