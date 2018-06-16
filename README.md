@@ -1,5 +1,5 @@
 [![npm version](https://img.shields.io/npm/v/@staticdeploy/app-server.svg)](https://www.npmjs.com/package/@staticdeploy/app-server)
-[![build status](https://travis-ci.org/staticdeploy/app-server.svg?branch=master)](https://travis-ci.org/staticdeploy/app-server)
+[![build status](https://img.shields.io/circleci/project/github/staticdeploy/app-server.svg)](https://circleci.com/gh/staticdeploy/app-server)
 [![coverage status](https://codecov.io/github/staticdeploy/app-server/coverage.svg?branch=master)](https://codecov.io/github/staticdeploy/app-server?branch=master)
 [![dependency status](https://david-dm.org/staticdeploy/app-server.svg)](https://david-dm.org/staticdeploy/app-server)
 [![devDependency status](https://david-dm.org/staticdeploy/app-server/dev-status.svg)](https://david-dm.org/staticdeploy/app-server#info=devDependencies)
