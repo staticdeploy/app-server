@@ -15,7 +15,7 @@ import getAppServerRouter from "../src/getAppServerRouter";
 interface ITestDefinition {
     only?: boolean;
     options: {
-        baseUrl: string;
+        basePath: string;
         root: IDefinition;
         fallbackResource: string;
         selector?: string;
@@ -46,7 +46,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
 
             // Get the app to run tests against
             server = express().use(
-                options.baseUrl,
+                options.basePath,
                 getAppServerRouter({
                     root: root,
                     fallbackResource: options.fallbackResource,

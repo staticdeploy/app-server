@@ -44,8 +44,8 @@ export default function getAppServerRouter(
     }
 
     return Router().get(/.*/, async (req, res) => {
-        const baseUrl = req.baseUrl;
-        const requestedPath = toAbsolute(removePrefix(req.path, baseUrl));
+        const basePath = req.baseUrl;
+        const requestedPath = toAbsolute(removePrefix(req.path, basePath));
 
         // Find the best matching asset
         const matchingAsset = findMatchingAsset(
@@ -57,7 +57,7 @@ export default function getAppServerRouter(
         // When the requested path is not the canonical remote path for the
         // matching asset, redirect to the canonical remote path
         if (!isCanonicalPath(requestedPath, matchingAsset, fallbackAsset)) {
-            const canonicalRemotePath = join(baseUrl, matchingAsset.path);
+            const canonicalRemotePath = join(basePath, matchingAsset.path);
             res.redirect(301, canonicalRemotePath);
             return;
         }

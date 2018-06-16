@@ -10,5 +10,5 @@ The **app-server** binary takes the following configuration options:
   inject config into, defaults to `script#app-config`
 - `--configKeyPrefix` (env `APP_SERVER_CONFIG_KEY_PREFIX`): prefix of the
   environment variables to use for configuration, defaults to `APP_CONFIG_`
-- `--baseUrl` (env `APP_SERVER_BASE_URL`): website base url, defaults to `/`
+- `--basePath` (env `APP_SERVER_BASE_PATH`): website base path, defaults to `/`
 - `--port` (env `APP_SERVER_PORT`): port to listen on, defaults to `3000`

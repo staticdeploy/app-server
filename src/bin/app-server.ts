@@ -15,7 +15,7 @@ interface IArgv extends yargs.Arguments {
     fallbackResource: string;
     selector: string;
     configKeyPrefix: string;
-    baseUrl: string;
+    basePath: string;
     port: number;
 }
 
@@ -46,10 +46,11 @@ const argv = yargs
             "Prefix of the environment variables to use for configuration",
         type: "string"
     })
-    .option("baseUrl", {
-        coerce: baseUrl => toAbsolute(addTrailingSlash(baseUrl)),
+    .option("basePath", {
+        alias: "baseUrl",
+        coerce: basePath => toAbsolute(addTrailingSlash(basePath)),
         default: "/",
-        describe: "Website base url",
+        describe: "Website base path",
         type: "string"
     })
     .option("port", {
@@ -66,6 +67,11 @@ if (process.argv.find(arg => /^--index/.test(arg))) {
     // tslint:disable-next-line:no-console
     console.log("Option --index is deprectaed, use --fallbackResource instead");
 }
+// Deprecate use of --baseUrl option
+if (process.argv.find(arg => /^--baseUrl/.test(arg))) {
+    // tslint:disable-next-line:no-console
+    console.log("Option --baseUrl is deprectaed, use --basePath instead");
+}
 
 try {
     const app = express();
@@ -74,16 +80,16 @@ try {
     // Log requests
     app.use(bunyanMiddleware({ logger }));
 
-    // If baseUrl !== /, redirect /baseUrl to /baseUrl/
-    if (argv.baseUrl !== "/") {
-        app.get(removeTrailingSlash(argv.baseUrl), (_req, res) => {
-            res.redirect(301, argv.baseUrl);
+    // If basePath !== /, redirect /basePath to /basePath/
+    if (argv.basePath !== "/") {
+        app.get(removeTrailingSlash(argv.basePath), (_req, res) => {
+            res.redirect(301, argv.basePath);
         });
     }
 
     // Use appServerRouter
     app.use(
-        argv.baseUrl,
+        argv.basePath,
         getAppServerRouter({
             root: argv.root,
             fallbackResource: argv.fallbackResource,

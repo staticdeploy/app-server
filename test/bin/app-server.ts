@@ -59,17 +59,17 @@ describe("app-server bin", function() {
             .expect(/head/);
     });
 
-    it("301 to /baseUrl/ on GET /baseUrl", async () => {
+    it("301 to /basePath/ on GET /basePath", async () => {
         server = await startServer(
-            ["--root", root, "--baseUrl", "/baseUrl"],
+            ["--root", root, "--basePath", "/basePath"],
             env
         );
         await request("http://localhost:3000")
-            .get("/baseUrl")
+            .get("/basePath")
             .expect(301)
-            .expect("Location", "/baseUrl/");
+            .expect("Location", "/basePath/");
         await request("http://localhost:3000")
-            .get("/baseUrl/")
+            .get("/basePath/")
             .expect(200)
             .expect(/head/);
     });

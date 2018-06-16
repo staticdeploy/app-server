@@ -11,9 +11,9 @@ describe("getAppServerRouter routing", () => {
     *   301-s
     */
     describe("redirects to the canonical path", () => {
-        test("case: baseUrl=/", {
+        test("case: basePath=/", {
             options: {
-                baseUrl: "/",
+                basePath: "/",
                 root: {
                     asset: "/asset",
                     nested: { asset: "/nested/asset" },
@@ -45,9 +45,9 @@ describe("getAppServerRouter routing", () => {
             ]
         });
 
-        test("case: baseUrl=/base", {
+        test("case: basePath=/base/path", {
             options: {
-                baseUrl: "/base",
+                basePath: "/base/path",
                 root: {
                     asset: "/asset",
                     nested: { asset: "/nested/asset" },
@@ -57,31 +57,31 @@ describe("getAppServerRouter routing", () => {
             },
             testCases: [
                 {
-                    requestedPath: "/base/prefix/asset",
+                    requestedPath: "/base/path/prefix/asset",
                     expectedStatusCode: 301,
-                    expectedLocation: "/base/asset"
+                    expectedLocation: "/base/path/asset"
                 },
                 {
-                    requestedPath: "/base/prefix/nested/asset",
+                    requestedPath: "/base/path/prefix/nested/asset",
                     expectedStatusCode: 301,
-                    expectedLocation: "/base/nested/asset"
+                    expectedLocation: "/base/path/nested/asset"
                 },
                 {
-                    requestedPath: "/base/nested/prefix/asset",
+                    requestedPath: "/base/path/nested/prefix/asset",
                     expectedStatusCode: 301,
-                    expectedLocation: "/base/asset"
+                    expectedLocation: "/base/path/asset"
                 },
                 {
-                    requestedPath: "/base/nested/prefix/nested/asset",
+                    requestedPath: "/base/path/nested/prefix/nested/asset",
                     expectedStatusCode: 301,
-                    expectedLocation: "/base/nested/asset"
+                    expectedLocation: "/base/path/nested/asset"
                 }
             ]
         });
 
-        test('case: baseUrl=/, with "significant" files', {
+        test('case: basePath=/, with "significant" files', {
             options: {
-                baseUrl: "/",
+                basePath: "/",
                 root: {
                     "index.html": "/index.html",
                     "asset.html": "/asset.html",
@@ -119,9 +119,9 @@ describe("getAppServerRouter routing", () => {
             ]
         });
 
-        test('case: baseUrl=/base, with "significant" files', {
+        test('case: basePath=/base/path, with "significant" files', {
             options: {
-                baseUrl: "/base",
+                basePath: "/base/path",
                 root: {
                     "index.html": "/index.html",
                     "asset.html": "/asset.html",
@@ -137,24 +137,24 @@ describe("getAppServerRouter routing", () => {
             },
             testCases: [
                 {
-                    requestedPath: "/base/prefix/asset",
+                    requestedPath: "/base/path/prefix/asset",
                     expectedStatusCode: 301,
-                    expectedLocation: "/base/asset"
+                    expectedLocation: "/base/path/asset"
                 },
                 {
-                    requestedPath: "/base/prefix/nested/asset",
+                    requestedPath: "/base/path/prefix/nested/asset",
                     expectedStatusCode: 301,
-                    expectedLocation: "/base/nested/asset"
+                    expectedLocation: "/base/path/nested/asset"
                 },
                 {
-                    requestedPath: "/base/nested/prefix/asset",
+                    requestedPath: "/base/path/nested/prefix/asset",
                     expectedStatusCode: 301,
-                    expectedLocation: "/base/asset"
+                    expectedLocation: "/base/path/asset"
                 },
                 {
-                    requestedPath: "/base/nested/prefix/nested/asset",
+                    requestedPath: "/base/path/nested/prefix/nested/asset",
                     expectedStatusCode: 301,
-                    expectedLocation: "/base/nested/asset"
+                    expectedLocation: "/base/path/nested/asset"
                 }
             ]
         });
@@ -164,9 +164,9 @@ describe("getAppServerRouter routing", () => {
     *   200-s
     */
     describe("serves the best matching asset or the fallback", () => {
-        test("case: baseUrl=/", {
+        test("case: basePath=/", {
             options: {
-                baseUrl: "/",
+                basePath: "/",
                 root: {
                     "index.html": htmlWith("/index.html"),
                     asset: htmlWith("/asset"),
@@ -332,9 +332,9 @@ describe("getAppServerRouter routing", () => {
             ]
         });
 
-        test("case: baseUrl=/base", {
+        test("case: basePath=/base/path", {
             options: {
-                baseUrl: "/base",
+                basePath: "/base/path",
                 root: {
                     "index.html": htmlWith("/index.html"),
                     asset: htmlWith("/asset"),
@@ -377,105 +377,105 @@ describe("getAppServerRouter routing", () => {
             testCases: [
                 // First level
                 {
-                    requestedPath: "/base",
+                    requestedPath: "/base/path",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/index.html")
                 },
                 {
-                    requestedPath: "/base/",
+                    requestedPath: "/base/path/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/index.html")
                 },
                 {
-                    requestedPath: "/base/asset",
+                    requestedPath: "/base/path/asset",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/asset")
                 },
                 {
-                    requestedPath: "/base/asset/",
+                    requestedPath: "/base/path/asset/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/asset")
                 },
                 {
-                    requestedPath: "/base/perfect-match",
+                    requestedPath: "/base/path/perfect-match",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/perfect-match")
                 },
                 {
-                    requestedPath: "/base/perfect-match/",
+                    requestedPath: "/base/path/perfect-match/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/perfect-match")
                 },
                 {
-                    requestedPath: "/base/dot-html-match",
+                    requestedPath: "/base/path/dot-html-match",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/dot-html-match.html")
                 },
                 {
-                    requestedPath: "/base/dot-html-match/",
+                    requestedPath: "/base/path/dot-html-match/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/dot-html-match.html")
                 },
                 {
-                    requestedPath: "/base/index-dot-html-match",
+                    requestedPath: "/base/path/index-dot-html-match",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/index-dot-html-match/index.html")
                 },
                 {
-                    requestedPath: "/base/index-dot-html-match/",
+                    requestedPath: "/base/path/index-dot-html-match/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/index-dot-html-match/index.html")
                 },
                 // Nested
                 {
-                    requestedPath: "/base/nested",
+                    requestedPath: "/base/path/nested",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/nested/index.html")
                 },
                 {
-                    requestedPath: "/base/nested/",
+                    requestedPath: "/base/path/nested/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/nested/index.html")
                 },
                 {
-                    requestedPath: "/base/nested/asset",
+                    requestedPath: "/base/path/nested/asset",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/nested/asset")
                 },
                 {
-                    requestedPath: "/base/nested/asset/",
+                    requestedPath: "/base/path/nested/asset/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/nested/asset")
                 },
                 {
-                    requestedPath: "/base/nested/perfect-match",
+                    requestedPath: "/base/path/nested/perfect-match",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/nested/perfect-match")
                 },
                 {
-                    requestedPath: "/base/nested/perfect-match/",
+                    requestedPath: "/base/path/nested/perfect-match/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/nested/perfect-match")
                 },
                 {
-                    requestedPath: "/base/nested/dot-html-match",
+                    requestedPath: "/base/path/nested/dot-html-match",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/nested/dot-html-match.html")
                 },
                 {
-                    requestedPath: "/base/nested/dot-html-match/",
+                    requestedPath: "/base/path/nested/dot-html-match/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/nested/dot-html-match.html")
                 },
                 {
-                    requestedPath: "/base/nested/index-dot-html-match",
+                    requestedPath: "/base/path/nested/index-dot-html-match",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith(
                         "/nested/index-dot-html-match/index.html"
                     )
                 },
                 {
-                    requestedPath: "/base/nested/index-dot-html-match/",
+                    requestedPath: "/base/path/nested/index-dot-html-match/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith(
                         "/nested/index-dot-html-match/index.html"
@@ -483,22 +483,22 @@ describe("getAppServerRouter routing", () => {
                 },
                 // Fallback
                 {
-                    requestedPath: "/base/non-existing",
+                    requestedPath: "/base/path/non-existing",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/fallback")
                 },
                 {
-                    requestedPath: "/base/non-existing/",
+                    requestedPath: "/base/path/non-existing/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/fallback")
                 },
                 {
-                    requestedPath: "/base/nested/non-existing",
+                    requestedPath: "/base/path/nested/non-existing",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/fallback")
                 },
                 {
-                    requestedPath: "/base/nested/non-existing/",
+                    requestedPath: "/base/path/nested/non-existing/",
                     expectedStatusCode: 200,
                     expectedBody: htmlWith("/fallback")
                 }

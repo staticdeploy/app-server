@@ -17,7 +17,7 @@ function getInjectedAPP_CONFIG(body: string) {
 describe("staticRoute configuration injection", () => {
     test("doesn't inject anything in non-html files", {
         options: {
-            baseUrl: "/",
+            basePath: "/",
             root: {
                 asset: "/asset",
                 html: htmlWithConfig,
@@ -55,7 +55,7 @@ describe("staticRoute configuration injection", () => {
 
     test("injects the supplied configuration in html files", {
         options: {
-            baseUrl: "/",
+            basePath: "/",
             config: { APP_CONFIG_KEY: "VALUE" },
             configKeyPrefix: "APP_CONFIG_",
             root: {
