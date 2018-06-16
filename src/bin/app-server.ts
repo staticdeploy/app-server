@@ -5,6 +5,7 @@ import yargs from "yargs";
 
 import getAppServerRouter from "../getAppServerRouter";
 import addTrailingSlash from "../utils/addTrailingSlash";
+import deprecate from "../utils/deprecate";
 import removeTrailingSlash from "../utils/removeTrailingSlash";
 import toAbsolute from "../utils/toAbsolute";
 
@@ -63,14 +64,18 @@ const argv = yargs
     .strict().argv as IArgv;
 
 // Deprecate use of --index option
-if (process.argv.find(arg => /^--index/.test(arg))) {
-    // tslint:disable-next-line:no-console
-    console.log("Option --index is deprectaed, use --fallbackResource instead");
+if (
+    process.argv.find(arg => /^--index/.test(arg)) ||
+    process.env.APP_SERVER_INDEX
+) {
+    deprecate("Option --index is deprecated, use --fallbackResource instead");
 }
 // Deprecate use of --baseUrl option
-if (process.argv.find(arg => /^--baseUrl/.test(arg))) {
-    // tslint:disable-next-line:no-console
-    console.log("Option --baseUrl is deprectaed, use --basePath instead");
+if (
+    process.argv.find(arg => /^--baseUrl/.test(arg)) ||
+    process.env.APP_SERVER_BASE_URL
+) {
+    deprecate("Option --baseUrl is deprecated, use --basePath instead");
 }
 
 try {
