@@ -23,6 +23,7 @@ yarn add -D @staticdeploy/app-server
 
 - [usage with create-react-app](docs/usage-with-cra.md)
 - [deploy create-react-app apps with Docker](docs/deploy-cra-apps-with-docker.md)
+- [deploy generic static apps with Docker](docs/deploy-apps-with-docker.md)
 
 ### Additional documentation
 

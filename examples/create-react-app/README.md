@@ -1,6 +1,7 @@
 # create-react-app app example
 
-Example of using `app-server` with a trivial `create-react-app` app.
+Example of using **app-server** with a trivial
+[**create-react-app**](https://github.com/facebook/create-react-app) app.
 
 ## Run the example in development mode
 
@@ -19,10 +20,10 @@ changed.
 
 ### What happens in the example
 
-`yarn start` starts - in parallel - `create-react-app`'s development server and
-`app-server`'s `dev-config-server`.
+`yarn start` starts - in parallel - **create-react-app**'s development server
+and **app-server**'s **dev-config-server**.
 
-When started, `dev-config-server`:
+When started, **dev-config-server**:
 
 1.  generates from the `.env` file a javascript script defining the global
     variable `window.APP_CONFIG`
@@ -56,7 +57,7 @@ has changed.
 The `docker build ...` command builds the app docker image, using the
 `staticdeploy/app-server:cra-builder` and `staticdeploy/app-server:cra-runtime`
 base images which respectively build the app into a static bundle and setup
-`app-server` to serve the built app.
+**app-server** to serve the built app.
 
 When the image is run with `docker run ...`, `app-server`:
 

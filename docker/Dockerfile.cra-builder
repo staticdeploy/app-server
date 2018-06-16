@@ -9,8 +9,8 @@ ONBUILD COPY . .
 # what to serve)
 ONBUILD ENV PUBLIC_URL .
 
-# Install dependencies
-ONBUILD RUN yarn install
+# Install dependencies (with yarn if there is a yarn.lock)
+ONBUILD RUN if [ -e yarn.lock ]; then yarn install; else npm install; fi
 
 # Build the app
 ONBUILD RUN yarn build

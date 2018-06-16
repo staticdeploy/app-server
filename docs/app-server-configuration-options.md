@@ -1,6 +1,6 @@
-## `app-server` configuration options
+## app-server configuration options
 
-The `app-server` binary takes the following configuration options:
+The **app-server** binary takes the following configuration options:
 
 - `--root` (env `APP_SERVER_ROOT`): root diretory to serve, defaults to `build`
 - `--fallbackResource` (env `APP_SERVER_FALLBACK_RESOURCE`): fallback resource

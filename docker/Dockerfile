@@ -1,6 +1,7 @@
 FROM node:8-alpine
 
-WORKDIR /workspace
+# Install app-server into directory /app-server
+WORKDIR /app-server
 
 # Copy files
 COPY package.json yarn.lock tsconfig.json ./
@@ -42,5 +43,8 @@ ENV NODE_ENV production
 ENV APP_SERVER_PORT 80
 EXPOSE 80
 
+# Return to default WORKDIR
+WORKDIR /
+
 # Set start command
-CMD [ "yarn", "start" ]
+CMD [ "node", "/app-server/bin/app-server.js" ]
