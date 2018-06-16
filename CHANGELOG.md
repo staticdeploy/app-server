@@ -10,6 +10,9 @@ Breaking changes:
 
 - log format changed (from Standard Apache Common Log Format to JSON)
 
+- removed `dev-config-server` bin (but added `@staticdeploy/app-config` as
+  dependency, which provides the same `dev-config-server` bin)
+
 Deprecations:
 
 - option `--index` renamed `--fallbackResource`
@@ -46,4 +49,4 @@ First version published to npm.
 
 ## 1.0.0 (September 16, 2017)
 
-Initial release. Not published on npm due to packege access issues.
+Initial release. Not published on npm due to package access issues.
