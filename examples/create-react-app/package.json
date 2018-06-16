@@ -9,8 +9,8 @@
     "test": "react-scripts test --env=jsdom"
   },
   "dependencies": {
-    "react": "^16.4.0",
-    "react-dom": "^16.4.0"
+    "react": "^16.4.1",
+    "react-dom": "^16.4.1"
   },
   "devDependencies": {
     "@staticdeploy/app-server": "^1.1.1",

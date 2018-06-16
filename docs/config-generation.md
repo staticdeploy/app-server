@@ -1,12 +1,17 @@
 ## How `window.APP_CONFIG` is generated
 
-Given a set of environment variables:
+> Note: the configuration is generated and injected using
+> [staticdeploy/app-config](https://github.com/staticdeploy/app-config/)
 
-- filter the ones whose name doesn't start with `APP_CONFIG_`
-- strip the prefix `APP_CONFIG_` from the name of the remaining variables
+Given a set of environment variables and a prefix (default `APP_CONFIG_`):
+
+- filter the ones whose name doesn't start with the prefix
+- strip the prefix from the name of the remaining variables
 - define the `window.APP_CONFIG` object using those key-value pairs
 
-Example. Given the environment:
+### Example
+
+Given the environment:
 
 ```sh
 APP_CONFIG_KEY_0=VALUE_0

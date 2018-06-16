@@ -51,7 +51,9 @@ Then:
 
 #### In development
 
-`dev-config-server` starts a server listening on port `3456`. Reading
+`dev-config-server` - a CLI tool provided by
+[staticdeploy/app-config](https://github.com/staticdeploy/app-config/),
+dependency of app-server - starts a server listening on port `3456`. Reading
 environment variables defined in the `.env` file, it generates a javascript file
 and serves it at `/app-config.js`. The file defines the `window.APP_CONFIG`
 global variable ([how it's generated](config-generation.md)).

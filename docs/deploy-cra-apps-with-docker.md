@@ -24,7 +24,3 @@ variables:
 ```sh
 docker run -e APP_CONFIG_MY_VAR=my_val my-app-image
 ```
-
-> Note: the `Dockerfile`-s for the `staticdeploy/app-server:*` images can be
-> found in the
-> [docker-app-server repository](https://github.com/staticdeploy/docker-app-server)
