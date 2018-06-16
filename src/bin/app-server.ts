@@ -25,7 +25,7 @@ const argv = yargs
     .env("APP_SERVER")
     .option("root", {
         default: "build",
-        describe: "Root diretory to serve",
+        describe: "Root directory to serve",
         type: "string"
     })
     .option("fallbackResource", {
