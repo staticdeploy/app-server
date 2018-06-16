@@ -11,11 +11,12 @@ FROM staticdeploy/app-server:cra-runtime
 ```
 
 The first `FROM` instruction will run the `ONBUILD` instructions of the
-`:cra-builder` image, which will install dependencies with `yarn` and build the
-app with `yarn build`.
+`:cra-builder` image, which will install dependencies with **npm** (or **yarn**
+if your project has a `yarn.lock`) and build the app by running the `build` npm
+script.
 
 The second `FROM` instruction will copy the built app into the (relatively)
-small `:cra-runtime` image where `app-server` is installed and configured to
+small `:cra-runtime` image where **app-server** is installed and configured to
 serve the app.
 
 You can then run your app image passing in configuration via environment
@@ -24,7 +25,3 @@ variables:
 ```sh
 docker run -e APP_CONFIG_MY_VAR=my_val my-app-image
 ```
-
-> Note: the `Dockerfile`-s for the `staticdeploy/app-server:*` images can be
-> found in the
-> [docker-app-server repository](https://github.com/staticdeploy/docker-app-server)
