@@ -8,6 +8,8 @@ Breaking changes:
     exist, `/path.html` is served (used to be the contrary)
   - some paths that responded 404 now respond the fallback resource (issue #3)
 
+- log format changed (from Standard Apache Common Log Format to JSON)
+
 Deprecations:
 
 - option `--index` renamed `--fallbackResource`
