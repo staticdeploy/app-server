@@ -1,7 +1,7 @@
 {
   "name": "@staticdeploy/app-server",
   "description": "Serve and apply runtime configuration to static apps",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "publishConfig": {
     "access": "public"
   },
