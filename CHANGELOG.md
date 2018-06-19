@@ -13,6 +13,9 @@ Breaking changes:
 - removed `dev-config-server` bin (but added `@staticdeploy/app-config` as
   dependency, which provides the same `dev-config-server` bin)
 
+- removed exported function `getConfigScriptHandler` (if needed, should now be
+  imported from `@staticdeploy/app-config`)
+
 Deprecations:
 
 - option `--index` renamed `--fallbackResource`
