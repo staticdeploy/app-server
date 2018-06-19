@@ -1,3 +1,14 @@
+## 2.1.0 (June 19, 2018)
+
+Deprecations:
+
+- option `--fallbackResource` renamed `--fallbackAssetPath` (to use the same
+  name as [StaticDeploy](https://github.com/staticdeploy/staticdeploy))
+
+Fixes:
+
+- fix typo in `--root` option description
+
 ## 2.0.0 (June 16, 2018)
 
 Breaking changes:
