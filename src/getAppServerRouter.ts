@@ -12,7 +12,7 @@ import toAbsolute from "./utils/toAbsolute";
 
 export interface IAppServerRouterOptions {
     root: string;
-    fallbackResource: string;
+    fallbackAssetPath: string;
     selector: string;
     config: IConfig;
     configKeyPrefix: string;
@@ -23,7 +23,7 @@ export default function getAppServerRouter(
     const {
         root,
         selector,
-        fallbackResource,
+        fallbackAssetPath,
         config,
         configKeyPrefix
     } = options;
@@ -36,11 +36,15 @@ export default function getAppServerRouter(
     }));
 
     // Find the fallback asset
-    const fallbackAsset = assets.find(asset => asset.path === fallbackResource);
+    const fallbackAsset = assets.find(
+        asset => asset.path === fallbackAssetPath
+    );
 
-    // Ensure the fallback resource is one of the assets
+    // Ensure the fallback asset exists among the assets
     if (!fallbackAsset) {
-        throw new Error(`Fallback resource ${fallbackResource} does not exist`);
+        throw new Error(
+            `Asset ${fallbackAssetPath} does not exist in ${root}, cannot be set as fallback asset`
+        );
     }
 
     return Router().get(/.*/, async (req, res) => {

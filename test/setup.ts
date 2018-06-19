@@ -17,7 +17,7 @@ interface ITestDefinition {
     options: {
         basePath: string;
         root: IDefinition;
-        fallbackResource: string;
+        fallbackAssetPath: string;
         selector?: string;
         config?: IConfig;
         configKeyPrefix?: string;
@@ -49,7 +49,7 @@ export function test(description: string, testDefinition: ITestDefinition) {
                 options.basePath,
                 getAppServerRouter({
                     root: root,
-                    fallbackResource: options.fallbackResource,
+                    fallbackAssetPath: options.fallbackAssetPath,
                     selector: options.selector || "script#app-config",
                     config: options.config || {},
                     configKeyPrefix: options.configKeyPrefix || ""

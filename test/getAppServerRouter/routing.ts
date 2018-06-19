@@ -19,7 +19,7 @@ describe("getAppServerRouter routing", () => {
                     nested: { asset: "/nested/asset" },
                     fallback: "/fallback"
                 },
-                fallbackResource: "/fallback"
+                fallbackAssetPath: "/fallback"
             },
             testCases: [
                 {
@@ -53,7 +53,7 @@ describe("getAppServerRouter routing", () => {
                     nested: { asset: "/nested/asset" },
                     fallback: "/fallback"
                 },
-                fallbackResource: "/fallback"
+                fallbackAssetPath: "/fallback"
             },
             testCases: [
                 {
@@ -93,7 +93,7 @@ describe("getAppServerRouter routing", () => {
                     },
                     fallback: "/fallback"
                 },
-                fallbackResource: "/fallback"
+                fallbackAssetPath: "/fallback"
             },
             testCases: [
                 {
@@ -133,7 +133,7 @@ describe("getAppServerRouter routing", () => {
                     },
                     fallback: "/fallback"
                 },
-                fallbackResource: "/fallback"
+                fallbackAssetPath: "/fallback"
             },
             testCases: [
                 {
@@ -204,7 +204,7 @@ describe("getAppServerRouter routing", () => {
                     },
                     fallback: htmlWith("/fallback")
                 },
-                fallbackResource: "/fallback"
+                fallbackAssetPath: "/fallback"
             },
             testCases: [
                 // First level
@@ -372,7 +372,7 @@ describe("getAppServerRouter routing", () => {
                     },
                     fallback: htmlWith("/fallback")
                 },
-                fallbackResource: "/fallback"
+                fallbackAssetPath: "/fallback"
             },
             testCases: [
                 // First level

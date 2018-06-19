@@ -9,7 +9,7 @@ import toAbsolute from "../utils/toAbsolute";
 // Get start options (parse, validate, normalize, and set defaults for argv)
 interface IArgv extends yargs.Arguments {
     root: string;
-    fallbackResource: string;
+    fallbackAssetPath: string;
     selector: string;
     configKeyPrefix: string;
     basePath: string;
@@ -23,12 +23,12 @@ const argv = yargs
         describe: "Root directory to serve",
         type: "string"
     })
-    .option("fallbackResource", {
-        alias: "index",
+    .option("fallbackAssetPath", {
+        alias: ["index", "fallbackResource"],
         coerce: toAbsolute,
         default: "index.html",
         describe:
-            "Fallback resource to serve when the requested path doesn't match any asset",
+            "Path of the fallback asset to serve when the requested path doesn't match any other asset",
         type: "string"
     })
     .option("selector", {
@@ -63,7 +63,16 @@ if (
     process.argv.find(arg => /^--index/.test(arg)) ||
     process.env.APP_SERVER_INDEX
 ) {
-    deprecate("Option --index is deprecated, use --fallbackResource instead");
+    deprecate("Option --index is deprecated, use --fallbackAssetPath instead");
+}
+// Deprecate use of --fallbackResource option
+if (
+    process.argv.find(arg => /^--fallbackResource/.test(arg)) ||
+    process.env.APP_SERVER_FALLBACK_RESOURCE
+) {
+    deprecate(
+        "Option --fallbackResource is deprecated, use --fallbackAssetPath instead"
+    );
 }
 // Deprecate use of --baseUrl option
 if (
@@ -77,7 +86,7 @@ if (
 try {
     const appServer = getAppServer({
         root: argv.root,
-        fallbackResource: argv.fallbackResource,
+        fallbackAssetPath: argv.fallbackAssetPath,
         selector: argv.selector,
         configKeyPrefix: argv.configKeyPrefix,
         basePath: argv.basePath,

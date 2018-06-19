@@ -8,7 +8,7 @@ import removeTrailingSlash from "./utils/removeTrailingSlash";
 
 interface IAppServerOptions {
     root: string;
-    fallbackResource: string;
+    fallbackAssetPath: string;
     selector: string;
     configKeyPrefix: string;
     basePath: string;
@@ -40,7 +40,7 @@ export default function getAppServer(options: IAppServerOptions) {
         options.basePath,
         getAppServerRouter({
             root: options.root,
-            fallbackResource: options.fallbackResource,
+            fallbackAssetPath: options.fallbackAssetPath,
             selector: options.selector,
             config: options.config,
             configKeyPrefix: options.configKeyPrefix

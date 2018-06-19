@@ -3,9 +3,9 @@
 The **app-server** binary takes the following configuration options:
 
 - `--root` (env `APP_SERVER_ROOT`): root directory to serve, defaults to `build`
-- `--fallbackResource` (env `APP_SERVER_FALLBACK_RESOURCE`): fallback resource
-  to serve when the requested path doesn't match any asset, defaults to
-  `/index.html`
+- `--fallbackAssetPath` (env `APP_SERVER_FALLBACK_ASSET_PATH`): path of the
+  fallback asset to serve when the requested path doesn't match any other asset,
+  defaults to `/index.html`
 - `--selector` (env `APP_SERVER_SELECTOR`): selector for the script element to
   inject config into, defaults to `script#app-config`
 - `--configKeyPrefix` (env `APP_SERVER_CONFIG_KEY_PREFIX`): prefix of the

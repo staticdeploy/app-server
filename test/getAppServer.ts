@@ -23,7 +23,7 @@ describe("getAppServer", () => {
 
     const baseAppServerOptions = {
         root: root,
-        fallbackResource: "/index.html",
+        fallbackAssetPath: "/index.html",
         selector: "script#app-config",
         configKeyPrefix: "APP_CONFIG_",
         config: {

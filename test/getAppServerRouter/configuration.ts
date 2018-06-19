@@ -27,7 +27,7 @@ describe("staticRoute configuration injection", () => {
                 },
                 fallback: "/fallback"
             },
-            fallbackResource: "/fallback"
+            fallbackAssetPath: "/fallback"
         },
         testCases: [
             {
@@ -67,7 +67,7 @@ describe("staticRoute configuration injection", () => {
                 },
                 fallback: "/fallback"
             },
-            fallbackResource: "/fallback"
+            fallbackAssetPath: "/fallback"
         },
         testCases: [
             {
