@@ -1,16 +1,12 @@
-import bunyan from "bunyan";
-import bunyanMiddleware from "bunyan-middleware";
-import express from "express";
 import yargs from "yargs";
 
-import getAppServerRouter from "../getAppServerRouter";
+import getAppServer from "../getAppServer";
+import logger from "../logger";
 import addTrailingSlash from "../utils/addTrailingSlash";
 import deprecate from "../utils/deprecate";
-import removeTrailingSlash from "../utils/removeTrailingSlash";
 import toAbsolute from "../utils/toAbsolute";
 
-const logger = bunyan.createLogger({ name: "@staticdeploy/app-server" });
-
+// Get start options (parse, validate, normalize, and set defaults for argv)
 interface IArgv extends yargs.Arguments {
     root: string;
     fallbackResource: string;
@@ -19,7 +15,6 @@ interface IArgv extends yargs.Arguments {
     basePath: string;
     port: number;
 }
-
 const argv = yargs
     .usage("Usage: $0 <options>")
     .env("APP_SERVER")
@@ -78,34 +73,17 @@ if (
     deprecate("Option --baseUrl is deprecated, use --basePath instead");
 }
 
+// Create and start the server
 try {
-    const app = express();
-    app.set("strict routing", true);
-
-    // Log requests
-    app.use(bunyanMiddleware({ logger }));
-
-    // If basePath !== /, redirect /basePath to /basePath/
-    if (argv.basePath !== "/") {
-        app.get(removeTrailingSlash(argv.basePath), (_req, res) => {
-            res.redirect(301, argv.basePath);
-        });
-    }
-
-    // Use appServerRouter
-    app.use(
-        argv.basePath,
-        getAppServerRouter({
-            root: argv.root,
-            fallbackResource: argv.fallbackResource,
-            selector: argv.selector,
-            config: process.env,
-            configKeyPrefix: argv.configKeyPrefix
-        })
-    );
-
-    // Start the server
-    app.listen(argv.port, () => {
+    const appServer = getAppServer({
+        root: argv.root,
+        fallbackResource: argv.fallbackResource,
+        selector: argv.selector,
+        configKeyPrefix: argv.configKeyPrefix,
+        basePath: argv.basePath,
+        config: process.env
+    });
+    appServer.listen(argv.port, () => {
         logger.info(`app-server started on port ${argv.port}`);
     });
 } catch (err) {
