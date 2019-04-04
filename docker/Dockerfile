@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:lts-alpine
 
 # Install app-server into directory /app-server
 WORKDIR /app-server
