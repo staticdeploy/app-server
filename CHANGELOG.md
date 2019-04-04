@@ -1,3 +1,9 @@
+## 3.0.0 (April 4, 2019)
+
+Breaking changes:
+
+- update docker images to `node:lts` (10)
+
 ## 2.1.0 (June 19, 2018)
 
 Deprecations:
