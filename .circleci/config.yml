@@ -16,7 +16,7 @@ jobs:
           command: yarn lint
       - run:
           name: Run tests and calculate code coverage
-          command: yarn coverage
+          command: npm run coverage
       - run:
           name: Publish code coverage report
           command: yarn publish-coverage

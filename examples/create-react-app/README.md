@@ -21,7 +21,8 @@ changed.
 ### What happens in the example
 
 `yarn start` starts - in parallel - **create-react-app**'s development server
-and **app-server**'s **dev-config-server**.
+and [**app-config**](https://github.com/staticdeploy/app-config)'s
+**dev-config-server**.
 
 When started, **dev-config-server**:
 
@@ -61,11 +62,13 @@ base images which respectively build the app into a static bundle and setup
 
 When the image is run with `docker run ...`, `app-server`:
 
-1.  starts serving the app
-2.  generates from environment variables a javascript script defining the global
-    variable `window.APP_CONFIG`,
-3.  injects the script as content of the `#app-config` script in the app's
-    `index.html`
+1.  starts serving the app using StaticDeploy's serving algorithm, that includes
+    features such as:
+    1. using a fallback asset for requests to non-existing assets
+    2. allowing the user to use non-canonical paths to request assets (e.g.
+       `/foo/index.js` instead of `/index.js`)
+    3. injecting the app configuration in the served html files
+    4. specifying custom headers for assets
 
 When the app is loaded:
 
