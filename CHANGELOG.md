@@ -1,3 +1,29 @@
+## 4.0.0 (August 29, 2019)
+
+Features:
+
+- add option `--headers` to allow attaching custom headers to responses
+- add option `--fallbackStatusCode` to change the status code with which the
+  fallback asset is served
+- add option `--configuration` to allow passing the JSON configuration object
+  directly (not just via env variables)
+- add option `--config` to allow passing config options via config file
+
+Breaking changes:
+
+- remove deprecated options `--index`, `--fallbackResource`, and `--baseUrl`
+- remove option `--selector` (as StaticDeploy only supports `script#app-config`)
+- option `--configKeyPrefix` renamed `--configurationKeyPrefix` (to avoid
+  confusion between the terms `config`, referring to the config options taken by
+  **app-server**, and `configuration`, the JSON configuration object inject into
+  static apps)
+- use StaticDeploy core module for implementing routing logic (before the logic
+  was more or less a copy-paste of StaticDeploy's code)
+
+Fixes:
+
+- remove `x-powered-by` header from responses
+
 ## 3.0.0 (April 4, 2019)
 
 Breaking changes:
