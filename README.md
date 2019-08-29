@@ -25,8 +25,7 @@ yarn add -D @staticdeploy/app-server
 - [deploy create-react-app apps with Docker](docs/deploy-cra-apps-with-docker.md)
 - [deploy generic static apps with Docker](docs/deploy-apps-with-docker.md)
 
-### Additional documentation
+### Reference documentation
 
+- [app-server config options](docs/app-server-config-options.md)
 - [how requests are routed](docs/requests-routing.md)
-- [how `window.APP_CONFIG` is generated](docs/config-generation.md)
-- [app-server configuration options](docs/app-server-configuration-options.md)

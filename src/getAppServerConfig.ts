@@ -21,6 +21,8 @@ export default function getAppServerConfig(
             coerce: resolve,
             config: true,
             default: "app-server.config.js",
+            describe:
+                "Path of the javascript file exporting the app-server config",
             configParser: (configFilePath: string) => {
                 const config = readConfigFile(configFilePath);
                 const { configuration, headers } = config;
@@ -63,13 +65,14 @@ export default function getAppServerConfig(
         })
         .option("configuration", {
             default: "{}",
-            describe: "Configuration of the static app",
+            describe:
+                "JSON configuration object for the static app, i.e. what becomes window.APP_CONFIG",
             type: "string"
         })
         .option("configurationKeyPrefix", {
             default: "APP_CONFIG_",
             describe:
-                "Prefix of the environment variables used for the configuration of the static app",
+                "Prefix of the environment variables used to generate the configuration for the static app",
             type: "string"
         })
         .option("basePath", {

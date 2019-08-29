@@ -1,2 +1,2 @@
-FROM staticdeploy/app-server:v4.0.0-cra-builder
-FROM staticdeploy/app-server:v4.0.0-cra-runtime
+FROM staticdeploy/app-server:master-cra-builder
+FROM staticdeploy/app-server:master-cra-runtime

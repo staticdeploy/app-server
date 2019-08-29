@@ -37,7 +37,7 @@ FROM node
 # RUN npm run build
 
 # Second docker stage: copy artifacts into the staticdeploy/app-server image
-FROM staticdeploy/app-server
+FROM staticdeploy/app-server:vX.Y.Z
 
 # Copy artifacts from the previous stage (assuming they were produced in the
 # /dist directory) into the /build directory of the image, the default directory
