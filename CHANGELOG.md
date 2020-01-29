@@ -1,3 +1,13 @@
+## 4.1.0 (January 29, 2020)
+
+Features:
+
+- add the value of the `basePath` option as the `BASE_PATH` property of the
+  `window.APP_CONFIG` object defined by the configuration script
+- when a `Content-Security-Policy` header is defined for an html asset, patch
+  its value to whitelist (via sha256 source) the configuration script injected
+  in the html
+
 ## 4.0.0 (August 29, 2019)
 
 Features:
