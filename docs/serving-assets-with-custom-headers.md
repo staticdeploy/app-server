@@ -32,3 +32,9 @@ Common use cases for custom headers are:
 - specifying caching policies
 - specifying security headers
 - overriding an asset's `Content-Type`
+
+### Content-Security-Policy
+
+If you specify a `Content-Security-Policy` header for an `html` asset,
+**app-server** will modify it to whitelist the inline `app-config` configuration
+script that gets injected into the html.

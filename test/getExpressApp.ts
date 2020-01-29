@@ -169,8 +169,47 @@ describe("getExpressApp", () => {
                     const vm = new VM({ sandbox: { window: {} } });
                     vm.run(scriptContent!);
                     const APP_CONFIG = vm.run("window.APP_CONFIG");
-                    expect(APP_CONFIG).to.deep.equal({ KEY: "VALUE" });
+                    expect(APP_CONFIG).to.deep.equal({
+                        BASE_PATH: "/",
+                        KEY: "VALUE"
+                    });
                 });
+        });
+
+        it("injects the correct BASE_PATH configuration value", async () => {
+            const expressApp = await getExpressApp({
+                ...baseAppServerConfig,
+                basePath: "/basePath/"
+            });
+            return request(expressApp)
+                .get("/basePath/")
+                .then(res => {
+                    const $ = load(res.text);
+                    const scriptContent = $("script#app-config").html();
+                    const vm = new VM({ sandbox: { window: {} } });
+                    vm.run(scriptContent!);
+                    const APP_CONFIG = vm.run("window.APP_CONFIG");
+                    expect(APP_CONFIG).to.deep.equal({
+                        BASE_PATH: "/basePath/"
+                    });
+                });
+        });
+
+        it("whitelists the app-config script in the CSP header, if the header is present", async () => {
+            const expressApp = await getExpressApp({
+                ...baseAppServerConfig,
+                headers: {
+                    "**/*": {
+                        "content-security-policy": "default-src 'self'"
+                    }
+                }
+            });
+            await request(expressApp)
+                .get("/")
+                .expect(
+                    "content-security-policy",
+                    "default-src 'self'; script-src 'sha256-ZyuLks6agCugBPFxQdY5ymNgF6NVm8BUoX85hOgGVqo='"
+                );
         });
     });
 });
