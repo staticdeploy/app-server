@@ -1,4 +1,5 @@
-FROM node:lts
+ARG BUILDPLATFORM
+FROM --platform=${BUILDPLATFORM} node:lts
 
 ONBUILD WORKDIR /app
 

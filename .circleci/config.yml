@@ -25,7 +25,16 @@ jobs:
       - image: circleci/node:lts
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Install Docker buildx tool
+          command: |
+            mkdir -vp ~/.docker/cli-plugins/
+            wget -O ~/.docker/cli-plugins/docker-buildx "https://github.com/docker/buildx/releases/download/v0.7.0/buildx-v0.7.0.linux-amd64"
+            chmod a+x ~/.docker/cli-plugins/docker-buildx
+            cat /etc/os-release
+            docker version
       - run:
           name: Login to Docker Hub
           command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
@@ -33,17 +42,28 @@ jobs:
           name: Set $DOCKER_TAG
           command: echo 'export DOCKER_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
       - run:
+          name: Create buildx
+          command: |
+            docker buildx create --use
+            docker run --privileged --rm tonistiigi/binfmt --install all
+      - run:
           name: Build docker images
           command: |
-            docker build -f docker/Dockerfile -t staticdeploy/app-server:$DOCKER_TAG .
-            docker build -f docker/Dockerfile.cra-builder -t staticdeploy/app-server:$DOCKER_TAG-cra-builder .
-            docker build -f docker/Dockerfile.cra-runtime -t staticdeploy/app-server:$DOCKER_TAG-cra-runtime --build-arg DOCKER_TAG=$DOCKER_TAG .
+            docker buildx build --platform=linux/arm64/v8 --build-arg BUILDPLATFORM=linux/arm64/v8 --push -f docker/Dockerfile -t staticdeploy/app-server:$DOCKER_TAG-arm64 .
+            docker buildx build --platform=linux/amd64 --build-arg BUILDPLATFORM=linux/amd64 --push -f docker/Dockerfile -t staticdeploy/app-server:$DOCKER_TAG-amd64 .
+            docker buildx build --platform=linux/arm64/v8 --build-arg BUILDPLATFORM=linux/arm64/v8 --push -f docker/Dockerfile.cra-builder -t staticdeploy/app-server:$DOCKER_TAG-cra-builder-arm64 .
+            docker buildx build --platform=linux/amd64 --build-arg BUILDPLATFORM=linux/amd64 --push -f docker/Dockerfile.cra-builder -t staticdeploy/app-server:$DOCKER_TAG-cra-builder-amd64 .
+            docker buildx build --platform=linux/arm64/v8 --build-arg BUILDPLATFORM=linux/arm64/v8 --push -f docker/Dockerfile.cra-runtime -t staticdeploy/app-server:$DOCKER_TAG-cra-runtime-arm64 --build-arg DOCKER_TAG=$DOCKER_TAG-arm64 .
+            docker buildx build --platform=linux/amd64 --build-arg BUILDPLATFORM=linux/amd64 --push -f docker/Dockerfile.cra-runtime -t staticdeploy/app-server:$DOCKER_TAG-cra-runtime-amd64 --build-arg DOCKER_TAG=$DOCKER_TAG-amd64 .
       - run:
           name: Push docker images
           command: |
-            docker push staticdeploy/app-server:$DOCKER_TAG
-            docker push staticdeploy/app-server:$DOCKER_TAG-cra-builder
-            docker push staticdeploy/app-server:$DOCKER_TAG-cra-runtime
+            docker manifest create $DOCKER_TAG --amend $DOCKER_TAG-arm64 --amend $DOCKER_TAG-amd64
+            docker manifest push $DOCKER_TAG
+            docker manifest create $DOCKER_TAG-cra-builder --amend $DOCKER_TAG-cra-builder-arm64 --amend $DOCKER_TAG-cra-builder-amd64
+            docker manifest push $DOCKER_TAG-cra-builder
+            docker manifest create $DOCKER_TAG-cra-runtime --amend $DOCKER_TAG-cra-runtime-arm64 --amend $DOCKER_TAG-cra-runtime-amd64
+            docker manifest push $DOCKER_TAG-cra-runtime
   npm-publish:
     docker:
       - image: circleci/node:lts

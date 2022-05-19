@@ -1,4 +1,5 @@
-FROM node:lts-alpine
+ARG BUILDPLATFORM
+FROM --platform=${BUILDPLATFORM} node:lts-slim
 
 # Install app-server into directory /app-server
 WORKDIR /app-server
