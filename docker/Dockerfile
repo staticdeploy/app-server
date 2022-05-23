@@ -12,7 +12,7 @@ COPY bin ./bin/
 # Install dependencies
 RUN yarn install --frozen-lockfile && \
     # Install curl for performing healthchecks
-    apk add --no-cache curl && \
+    apt-get update && apt install -y curl && \
     # Compile code
     yarn compile && \
     # Remove dev dependencies and other unnecessary files
