@@ -36,6 +36,9 @@ jobs:
             cat /etc/os-release
             docker version
       - run:
+          name: Login to Docker Hub
+          command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+      - run:
           name: Set $DOCKER_TAG
           command: echo 'export DOCKER_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
       - run:
