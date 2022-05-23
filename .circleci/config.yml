@@ -51,7 +51,6 @@ jobs:
       - run:
           name: Build docker images
           command: |
-            export DOCKER_CLI_EXPERIMENTAL=enabled
             docker buildx build --platform=linux/arm64/v8 --build-arg BUILDPLATFORM=linux/arm64/v8 --push -f docker/Dockerfile -t staticdeploy/app-server:$DOCKER_TAG-arm64 .
             docker buildx build --platform=linux/amd64 --build-arg BUILDPLATFORM=linux/amd64 --push -f docker/Dockerfile -t staticdeploy/app-server:$DOCKER_TAG-amd64 .
             docker buildx build --platform=linux/arm64/v8 --build-arg BUILDPLATFORM=linux/arm64/v8 --push -f docker/Dockerfile.cra-builder -t staticdeploy/app-server:$DOCKER_TAG-cra-builder-arm64 .
@@ -61,6 +60,7 @@ jobs:
       - run:
           name: Push docker images
           command: |
+            export DOCKER_CLI_EXPERIMENTAL=enabled
             docker manifest create $DOCKER_TAG --amend $DOCKER_TAG-arm64 --amend $DOCKER_TAG-amd64
             docker manifest push $DOCKER_TAG
             docker manifest create $DOCKER_TAG-cra-builder --amend $DOCKER_TAG-cra-builder-arm64 --amend $DOCKER_TAG-cra-builder-amd64
