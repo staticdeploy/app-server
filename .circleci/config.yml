@@ -36,9 +36,6 @@ jobs:
             cat /etc/os-release
             docker version
       - run:
-          name: Login to Docker Hub
-          command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-      - run:
           name: Set $DOCKER_TAG
           command: echo 'export DOCKER_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
       - run:
@@ -61,12 +58,14 @@ jobs:
           name: Push docker images
           command: |
             export DOCKER_CLI_EXPERIMENTAL=enabled
+            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             docker manifest create $DOCKER_TAG --amend $DOCKER_TAG-arm64 --amend $DOCKER_TAG-amd64
             docker manifest push $DOCKER_TAG
             docker manifest create $DOCKER_TAG-cra-builder --amend $DOCKER_TAG-cra-builder-arm64 --amend $DOCKER_TAG-cra-builder-amd64
             docker manifest push $DOCKER_TAG-cra-builder
             docker manifest create $DOCKER_TAG-cra-runtime --amend $DOCKER_TAG-cra-runtime-arm64 --amend $DOCKER_TAG-cra-runtime-amd64
             docker manifest push $DOCKER_TAG-cra-runtime
+            docker logout
   npm-publish:
     docker:
       - image: circleci/node:lts
