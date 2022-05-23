@@ -22,7 +22,7 @@ jobs:
           command: yarn publish-coverage
   docker-build-push:
     docker:
-      - image: circleci/node:lts
+      - image: docker:20
     steps:
       - checkout
       - setup_remote_docker:
