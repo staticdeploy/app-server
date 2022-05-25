@@ -40,11 +40,12 @@ jobs:
           command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - run:
           name: Set $DOCKER_TAG
-          command: echo 'export DOCKER_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
+          command: |
+            echo 'export DOCKER_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
+            echo 'export DOCKER_CLI_EXPERIMENTAL=enabled' >> $BASH_ENV
       - run:
           name: Create buildx
           command: |
-            export DOCKER_CLI_EXPERIMENTAL=enabled
             docker context create buildx-build
             docker buildx create --use buildx-build
             docker run --privileged --rm tonistiigi/binfmt --install all
@@ -60,8 +61,6 @@ jobs:
       - run:
           name: Push docker images
           command: |
-            export DOCKER_CLI_EXPERIMENTAL=enabled
-            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
             docker manifest create staticdeploy/app-server:$DOCKER_TAG --amend staticdeploy/app-server:$DOCKER_TAG-arm64 --amend staticdeploy/app-server:$DOCKER_TAG-amd64
             docker manifest push staticdeploy/app-server:$DOCKER_TAG
             docker manifest create staticdeploy/app-server:$DOCKER_TAG-cra-builder --amend staticdeploy/app-server:$DOCKER_TAG-cra-builder-arm64 --amend staticdeploy/app-server:$DOCKER_TAG-cra-builder-amd64
