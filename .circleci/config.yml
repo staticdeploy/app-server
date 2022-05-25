@@ -62,13 +62,12 @@ jobs:
           command: |
             export DOCKER_CLI_EXPERIMENTAL=enabled
             docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-            docker manifest create $DOCKER_TAG --amend $DOCKER_TAG-arm64 --amend $DOCKER_TAG-amd64
-            docker manifest push $DOCKER_TAG
-            docker manifest create $DOCKER_TAG-cra-builder --amend $DOCKER_TAG-cra-builder-arm64 --amend $DOCKER_TAG-cra-builder-amd64
-            docker manifest push $DOCKER_TAG-cra-builder
-            docker manifest create $DOCKER_TAG-cra-runtime --amend $DOCKER_TAG-cra-runtime-arm64 --amend $DOCKER_TAG-cra-runtime-amd64
-            docker manifest push $DOCKER_TAG-cra-runtime
-            docker logout
+            docker manifest create staticdeploy/app-server:$DOCKER_TAG --amend staticdeploy/app-server:$DOCKER_TAG-arm64 --amend staticdeploy/app-server:$DOCKER_TAG-amd64
+            docker manifest push staticdeploy/app-server:$DOCKER_TAG
+            docker manifest create staticdeploy/app-server:$DOCKER_TAG-cra-builder --amend staticdeploy/app-server:$DOCKER_TAG-cra-builder-arm64 --amend staticdeploy/app-server:$DOCKER_TAG-cra-builder-amd64
+            docker manifest push staticdeploy/app-server:$DOCKER_TAG-cra-builder
+            docker manifest create staticdeploy/app-server:$DOCKER_TAG-cra-runtime --amend staticdeploy/app-server:$DOCKER_TAG-cra-runtime-arm64 --amend staticdeploy/app-server:$DOCKER_TAG-cra-runtime-amd64
+            docker manifest push staticdeploy/app-server:$DOCKER_TAG-cra-runtime
   npm-publish:
     docker:
       - image: circleci/node:lts
