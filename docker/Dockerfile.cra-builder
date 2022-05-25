@@ -1,10 +1,10 @@
-ARG BUILDPLATFORM
-FROM --platform=${BUILDPLATFORM} node:lts
+FROM node:lts
 
 ONBUILD WORKDIR /app
 
 # Copy source files
 ONBUILD COPY . .
+
 # Create an empty app-server.config.js file if it doesn't exist
 ONBUILD RUN if [ ! -f app-server.config.js ]; then echo "module.exports={};" > app-server.config.js; fi
 
@@ -17,6 +17,3 @@ ONBUILD RUN if [ -f yarn.lock ]; then yarn install; else npm install; fi
 
 # Build the app
 ONBUILD RUN yarn build
-
-# workaround https://github.com/moby/buildkit/issues/816
-COPY ./dummy ./dummy

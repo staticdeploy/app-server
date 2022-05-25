@@ -54,19 +54,15 @@ jobs:
           command: |
             docker buildx build --platform=linux/arm64/v8 --build-arg BUILDPLATFORM=linux/arm64/v8 --push -f docker/Dockerfile -t staticdeploy/app-server:$DOCKER_TAG-arm64 .
             docker buildx build --platform=linux/amd64 --build-arg BUILDPLATFORM=linux/amd64 --push -f docker/Dockerfile -t staticdeploy/app-server:$DOCKER_TAG-amd64 .
-            docker buildx build --platform=linux/arm64/v8 --build-arg BUILDPLATFORM=linux/arm64/v8 --push -f docker/Dockerfile.cra-builder -t staticdeploy/app-server:$DOCKER_TAG-cra-builder-arm64 .
-            docker buildx build --platform=linux/amd64 --build-arg BUILDPLATFORM=linux/amd64 --push -f docker/Dockerfile.cra-builder -t staticdeploy/app-server:$DOCKER_TAG-cra-builder-amd64 .
-            docker buildx build --platform=linux/arm64/v8 --build-arg BUILDPLATFORM=linux/arm64/v8 --push -f docker/Dockerfile.cra-runtime -t staticdeploy/app-server:$DOCKER_TAG-cra-runtime-arm64 --build-arg DOCKER_TAG=$DOCKER_TAG-arm64 .
-            docker buildx build --platform=linux/amd64 --build-arg BUILDPLATFORM=linux/amd64 --push -f docker/Dockerfile.cra-runtime -t staticdeploy/app-server:$DOCKER_TAG-cra-runtime-amd64 --build-arg DOCKER_TAG=$DOCKER_TAG-amd64 .
+            docker build -f docker/Dockerfile.cra-builder -t staticdeploy/app-server:$DOCKER_TAG-cra-builder .
+            docker build -f docker/Dockerfile.cra-runtime -t staticdeploy/app-server:$DOCKER_TAG-cra-runtime --build-arg DOCKER_TAG=$DOCKER_TAG .
       - run:
           name: Push docker images
           command: |
             docker manifest create staticdeploy/app-server:$DOCKER_TAG --amend staticdeploy/app-server:$DOCKER_TAG-arm64 --amend staticdeploy/app-server:$DOCKER_TAG-amd64
             docker manifest push staticdeploy/app-server:$DOCKER_TAG
-            docker manifest create staticdeploy/app-server:$DOCKER_TAG-cra-builder --amend staticdeploy/app-server:$DOCKER_TAG-cra-builder-arm64 --amend staticdeploy/app-server:$DOCKER_TAG-cra-builder-amd64
-            docker manifest push staticdeploy/app-server:$DOCKER_TAG-cra-builder
-            docker manifest create staticdeploy/app-server:$DOCKER_TAG-cra-runtime --amend staticdeploy/app-server:$DOCKER_TAG-cra-runtime-arm64 --amend staticdeploy/app-server:$DOCKER_TAG-cra-runtime-amd64
-            docker manifest push staticdeploy/app-server:$DOCKER_TAG-cra-runtime
+            docker push staticdeploy/app-server:$DOCKER_TAG-cra-builder
+            docker push staticdeploy/app-server:$DOCKER_TAG-cra-runtime
   npm-publish:
     docker:
       - image: circleci/node:lts

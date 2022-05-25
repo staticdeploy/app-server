@@ -1,6 +1,6 @@
 ARG DOCKER_TAG
 ARG BUILDPLATFORM
-FROM --platform=${BUILDPLATFORM} staticdeploy/app-server:$DOCKER_TAG
+FROM staticdeploy/app-server:$DOCKER_TAG-amd64
 
 # Copy files from cra-runtime stage
 ONBUILD COPY --from=0 /app/build /build
