@@ -1,5 +1,4 @@
 ARG DOCKER_TAG
-ARG BUILDPLATFORM
 FROM staticdeploy/app-server:$DOCKER_TAG-amd64
 
 # Copy files from cra-runtime stage
