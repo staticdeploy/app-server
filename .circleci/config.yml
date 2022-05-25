@@ -25,23 +25,42 @@ jobs:
       - image: circleci/node:lts
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
+          version: 20.10.14
+      - run:
+          name: Install Docker buildx tool
+          command: |
+            mkdir -vp ~/.docker/cli-plugins/
+            wget -O ~/.docker/cli-plugins/docker-buildx "https://github.com/docker/buildx/releases/download/v0.7.0/buildx-v0.7.0.linux-amd64"
+            chmod a+x ~/.docker/cli-plugins/docker-buildx
+            cat /etc/os-release
+            docker version
       - run:
           name: Login to Docker Hub
           command: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
       - run:
           name: Set $DOCKER_TAG
-          command: echo 'export DOCKER_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
+          command: |
+            echo 'export DOCKER_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
+            echo 'export DOCKER_CLI_EXPERIMENTAL=enabled' >> $BASH_ENV
+      - run:
+          name: Create buildx
+          command: |
+            docker context create buildx-build
+            docker buildx create --use buildx-build
+            docker run --privileged --rm tonistiigi/binfmt --install all
       - run:
           name: Build docker images
           command: |
-            docker build -f docker/Dockerfile -t staticdeploy/app-server:$DOCKER_TAG .
+            docker buildx build --platform=linux/arm64/v8 --build-arg BUILDPLATFORM=linux/arm64/v8 --push -f docker/Dockerfile -t staticdeploy/app-server:$DOCKER_TAG-arm64 .
+            docker buildx build --platform=linux/amd64 --build-arg BUILDPLATFORM=linux/amd64 --push -f docker/Dockerfile -t staticdeploy/app-server:$DOCKER_TAG-amd64 .
             docker build -f docker/Dockerfile.cra-builder -t staticdeploy/app-server:$DOCKER_TAG-cra-builder .
             docker build -f docker/Dockerfile.cra-runtime -t staticdeploy/app-server:$DOCKER_TAG-cra-runtime --build-arg DOCKER_TAG=$DOCKER_TAG .
       - run:
           name: Push docker images
           command: |
-            docker push staticdeploy/app-server:$DOCKER_TAG
+            docker manifest create staticdeploy/app-server:$DOCKER_TAG --amend staticdeploy/app-server:$DOCKER_TAG-arm64 --amend staticdeploy/app-server:$DOCKER_TAG-amd64
+            docker manifest push staticdeploy/app-server:$DOCKER_TAG
             docker push staticdeploy/app-server:$DOCKER_TAG-cra-builder
             docker push staticdeploy/app-server:$DOCKER_TAG-cra-runtime
   npm-publish:
