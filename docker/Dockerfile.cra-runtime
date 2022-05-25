@@ -3,6 +3,5 @@ ARG BUILDPLATFORM
 FROM --platform=${BUILDPLATFORM} staticdeploy/app-server:$DOCKER_TAG
 
 # Copy files from cra-runtime stage
-COPY --from=0 /app/dummy /app/dummy
 ONBUILD COPY --from=0 /app/build /build
 ONBUILD COPY --from=0 /app/app-server.config.js /app-server.config.js
