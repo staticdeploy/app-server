@@ -43,14 +43,11 @@ jobs:
           command: |
             echo 'export DOCKER_TAG=${CIRCLE_TAG:-$CIRCLE_BRANCH}' >> $BASH_ENV
             echo 'export DOCKER_CLI_EXPERIMENTAL=enabled' >> $BASH_ENV
-            echo 'export DOCKER_TLS_CERTDIR=""' >> $BASH_ENV
-            echo 'export DOCKER_HOST=tcp://localhost:2375' >> $BASH_ENV
-            echo 'export DOCKER_VERSION="20"' >> $BASH_ENV
-            echo 'export DOCKER_DRIVER=overlay2' >> $BASH_ENV
       - run:
           name: Create buildx
           command: |
-            docker buildx create --use
+            docker context create buildx-build
+            docker buildx create --use buildx-build
             docker run --privileged --rm tonistiigi/binfmt --install all
       - run:
           name: Build docker images
