@@ -46,8 +46,7 @@ jobs:
       - run:
           name: Create buildx
           command: |
-            docker context create buildx-build
-            docker buildx create --use buildx-build
+            docker buildx create --use
             docker run --privileged --rm tonistiigi/binfmt --install all
       - run:
           name: Build docker images
